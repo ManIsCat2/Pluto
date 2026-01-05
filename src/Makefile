@@ -7,13 +7,8 @@
 PLAT=
 
 CXX= g++ -std=c++17 -O3 -fvisibility=hidden -fPIC
-ifeq ($(PLAT),macosx)
-CXXFLAGS= -Wno-multichar -mmacosx-version-min=11.0 $(SYSCFLAGS) $(MYCFLAGS)
-LDFLAGS= -mmacosx-version-min=11.0 $(SYSLDFLAGS) $(MYLDFLAGS)
-else
 CXXFLAGS= -Wno-multichar $(SYSCFLAGS) $(MYCFLAGS)
 LDFLAGS= $(SYSLDFLAGS) $(MYLDFLAGS)
-endif
 LIBS= -lm -Lvendor/Soup/soup -lsoup $(SYSLIBS) $(MYLIBS)
 
 # Specifying DEBUG=0 (or any value) will remove any optimizations.

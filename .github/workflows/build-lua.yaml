@@ -92,7 +92,7 @@ jobs:
               with:
                 name: libpluto-linux-${{ matrix.arch.name }}
                 path: ./src/libplutostatic.a
-    
+
     build-windows:
         strategy:
           matrix:
@@ -103,7 +103,7 @@ jobs:
               - name: Win32
                 sys: mingw32
                 env: i686
-        
+
         name: Windows ${{ matrix.arch.name }}
         runs-on: windows-latest
         defaults:
@@ -147,8 +147,8 @@ jobs:
 
             - name: Build library
               run: |
-                make PLAT=macosx -j12
-            
+                MACOSX_DEPLOYMENT_TARGET=11.0 make PLAT=macosx -j12
+
             - name: Upload Lib
               uses: actions/upload-artifact@v4
               with:
