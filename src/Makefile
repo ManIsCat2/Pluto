@@ -7,6 +7,8 @@
 PLAT=
 
 CXX= g++ -std=c++17 -O3 -fvisibility=hidden -fPIC
+CXXFLAGS= -Wno-multichar $(SYSCFLAGS) $(MYCFLAGS)
+LDFLAGS= $(SYSLDFLAGS) $(MYLDFLAGS)
 LIBS= -lm -Lvendor/Soup/soup -lsoup $(SYSLIBS) $(MYLIBS)
 
 # Specifying DEBUG=0 (or any value) will remove any optimizations.
