@@ -6,7 +6,7 @@
 # Your platform. See PLATS for possible values.
 PLAT=
 
-CXX= g++ -std=c++17 -O3 -flto -fvisibility=hidden -fPIC
+CXX= g++ -std=c++17 -O3 -fvisibility=hidden -fPIC
 CXXFLAGS= -Wno-multichar -mmacosx-version-min=11.0 $(SYSCFLAGS) $(MYCFLAGS)
 LDFLAGS= -mmacosx-version-min=11.0 $(SYSLDFLAGS) $(MYLDFLAGS)
 LIBS= -lm -Lvendor/Soup/soup -lsoup $(SYSLIBS) $(MYLIBS)

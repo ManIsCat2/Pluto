@@ -1,4 +1,4 @@
-CXX=g++ -std=c++17 -O3 -flto -fvisibility=hidden -fPIC -mmacosx-version-min=11.0
+CXX=g++ -std=c++17 -O3 -fvisibility=hidden -fPIC -mmacosx-version-min=11.0
 CFLAGS=-c -Wall -mmacosx-version-min=11.0
 
 LIBNAME=libsoup.a
