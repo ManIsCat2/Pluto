@@ -1,10 +1,5 @@
-ifeq ($(PLAT),macosx)
-CXX=g++ -std=c++17 -O3 -fvisibility=hidden -fPIC -mmacosx-version-min=11.0
-CFLAGS=-c -Wall -mmacosx-version-min=11.0
-else
 CXX=g++ -std=c++17 -O3 -fvisibility=hidden -fPIC
 CFLAGS=-c -Wall
-endif
 
 LIBNAME=libsoup.a
 # echo $(ls *.cpp | sed 's/.cpp/.o/g')
