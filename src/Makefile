@@ -7,8 +7,13 @@
 PLAT=
 
 CXX= g++ -std=c++17 -O3 -fvisibility=hidden -fPIC
+ifeq ($(PLAT),macosx)
+CXXFLAGS= -Wno-multichar -mmacosx-version-min=11.0 $(SYSCFLAGS) $(MYCFLAGS)
+LDFLAGS= -mmacosx-version-min=11.0 $(SYSLDFLAGS) $(MYLDFLAGS)
+else
 CXXFLAGS= -Wno-multichar $(SYSCFLAGS) $(MYCFLAGS)
 LDFLAGS= $(SYSLDFLAGS) $(MYLDFLAGS)
+endif
 LIBS= -lm -Lvendor/Soup/soup -lsoup $(SYSLIBS) $(MYLIBS)
 
 # Specifying DEBUG=0 (or any value) will remove any optimizations.
@@ -38,7 +43,11 @@ CMCFLAGS=
 PLATS= guess aix bsd freebsd generic linux linux-readline termux termux-readline macosx mingw mingwdll posix solaris
 
 LUA_A=	libplutostatic.a
+ifeq ($(PLAT),macosx)
+LUA_SO= libpluto.dylib
+else
 LUA_SO= libpluto.so
+endif
 CORE_O=	lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o ltm.o lundump.o lvm.o lzio.o
 LIB_O=	lauxlib.o lbaselib.o lcorolib.o ldblib.o liolib.o lmathlib.o loadlib.o loslib.o lstrlib.o lcryptolib.o ltablib.o lutf8lib.o lassertlib.o lvector3lib.o lbase32.o lbase64.o ljson.o lurllib.o linit.o lstarlib.o lcatlib.o lhttplib.o lschedulerlib.o lsocketlib.o lbigint.o lxml.o lregex.o lffi.o lcanvas.o lbufferlib.o
 BASE_O= $(CORE_O) $(LIB_O) $(MYOBJS)
@@ -67,11 +76,27 @@ $(LUA_A): $(BASE_O)
 	$(AR) $@ $(BASE_O) vendor/Soup/soup/*.o
 	$(RANLIB) $@
 
-$(LUA_SO): $(BASE_O) $(LUA_A)
-	$(CXX) -shared -Wl,-soname,$(LUA_SO) -o $@ $? ${LIBS}
+ifeq ($(PLAT),macosx)
+SOFLAGS = -dynamiclib -Wl,-install_name,@rpath/$(LUA_SO)
+else
+SOFLAGS = -shared -Wl,-soname,$(LUA_SO)
+endif
 
+ifeq ($(PLAT),macosx)
+$(LUA_SO): $(BASE_O) $(LUA_A)
+	$(CXX) $(SOFLAGS) $(LDFLAGS) -o $@ $? $(LIBS)
+else
+$(LUA_SO): $(BASE_O) $(LUA_A)
+	$(CXX) $(SOFLAGS) -o $@ $? $(LIBS)
+endif
+
+ifeq ($(PLAT),macosx)
 $(LUA_T): $(LUA_O) $(LUA_A)
-	$(CXX) -o $@ $(LDFLAGS) -Wl,--export-dynamic $(LUA_O) $(LUA_A) $(LIBS)
+	$(CXX) -o $@ $(LDFLAGS) -Wl,-export_dynamic $(LUA_O) $(LUA_A) $(LIBS)
+else
+$(LUA_T): $(LUA_O) $(LUA_A)
+	$(CXX) -o $@ $(LDFLAGS) -Wl,--export_dynamic $(LUA_O) $(LUA_A) $(LIBS)
+endif
 
 $(LUAC_T): $(LUAC_O) $(LUA_A)
 	$(CXX) -o $@ $(LDFLAGS) $(LUAC_O) $(LUA_A) $(LIBS)
