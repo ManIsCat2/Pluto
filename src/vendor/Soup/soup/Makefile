@@ -1,5 +1,5 @@
-CXX=g++ -std=c++17 -O3 -flto -fvisibility=hidden -fPIC
-CFLAGS=-c -Wall
+CXX=g++ -std=c++17 -O3 -flto -fvisibility=hidden -fPIC -mmacosx-version-min=11.0
+CFLAGS=-c -Wall -mmacosx-version-min=11.0
 
 LIBNAME=libsoup.a
 # echo $(ls *.cpp | sed 's/.cpp/.o/g')
