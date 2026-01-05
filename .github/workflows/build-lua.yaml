@@ -147,7 +147,7 @@ jobs:
 
             - name: Build library
               run: |
-                make PLAT=macos -j12
+                make PLAT=macosx -j12
             
             - name: Upload Lib
               uses: actions/upload-artifact@v4
