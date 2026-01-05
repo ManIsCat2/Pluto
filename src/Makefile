@@ -88,7 +88,7 @@ $(LUA_T): $(LUA_O) $(LUA_A)
 	$(CXX) -o $@ $(LDFLAGS) -Wl,-export_dynamic $(LUA_O) $(LUA_A) $(LIBS)
 else
 $(LUA_T): $(LUA_O) $(LUA_A)
-	$(CXX) -o $@ $(LDFLAGS) -Wl,--export_dynamic $(LUA_O) $(LUA_A) $(LIBS)
+	$(CXX) -o $@ $(LDFLAGS) -Wl,--export-dynamic $(LUA_O) $(LUA_A) $(LIBS)
 endif
 
 $(LUAC_T): $(LUAC_O) $(LUA_A)
